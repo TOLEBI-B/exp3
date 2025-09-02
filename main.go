@@ -8,11 +8,13 @@ import (
 
 func main() {
     router := gin.Default()
+
     router.POST("/login", func(c *gin.Context) {
         var credentials struct {
-            Username string json:"username"
-            Password string json:"password"
+            Username string `json:"username"`
+            Password string `json:"password"`
         }
+
         if err := c.ShouldBindJSON(&credentials); err != nil {
             c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный формат запроса"})
             return
@@ -24,5 +26,6 @@ func main() {
             c.JSON(http.StatusUnauthorized, gin.H{"message": "Неверный логин или пароль"})
         }
     })
+
     router.Run(":8185")
 }
